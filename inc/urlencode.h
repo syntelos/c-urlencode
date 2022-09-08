@@ -19,6 +19,10 @@
 #define syntelos_urlencode_h_
 
 #include "syntelos.h"
-
+/*
+ * Return malloc string to be freed by caller.  Return null
+ * for a null or empty argument.
+ */
+char* urlencode(char*);
 
 #endif

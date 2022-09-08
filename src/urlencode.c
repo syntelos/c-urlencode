@@ -18,10 +18,64 @@
 
 #include "urlencode.h"
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <time.h>
 #include <string.h>
-#include <stdio.h>
 
+char enhex(int nibble){
+    if (10 > nibble){
+
+        return ('0'+nibble);
+    }
+    else {
+
+        return ('A'+(nibble-10));
+    }
+}
+
+char* urlencode(char *plaintext){
+    if (null != plaintext){
+        size_t length = strlen(plaintext);
+        if (0 < length){
+            off_t cnt = length;
+            off_t idx;
+            char *sp = plaintext;
+
+            for (idx = 0; idx < cnt; idx++, sp++){
+
+                char ch = *sp;
+                if (('0' <= ch && ch <= '9')||
+                    ('a' <= ch && ch <= 'z')||
+                    ('A' <= ch && ch <= 'Z'))
+                {
+                    continue;
+                }
+                else {
+                    length += 2;
+                }
+            }
+
+            sp = plaintext;
+
+            char *encoded = calloc(length+1,sizeof(char));
+            char *ep = encoded;
+
+            for (idx = 0; idx < cnt; idx++, sp++){
+
+                char ch = *sp;
+                if (('0' <= ch && ch <= '9')||
+                    ('a' <= ch && ch <= 'z')||
+                    ('A' <= ch && ch <= 'Z'))
+                {
+                    *ep++ = ch;
+                }
+                else {
+                    *ep++ = '%';
+                    *ep++ = enhex((ch & 0xF0)>>4);
+                    *ep++ = enhex((ch & 0x0F));
+                }
+            }
+
+            return encoded;
+        }
+    }
+    return null;
+}

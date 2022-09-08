@@ -17,11 +17,26 @@
  */
 
 #include "urlencode.h"
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <time.h>
-#include <string.h>
 #include <stdio.h>
 
+int main(int argc, char **argv){
+
+    if (1 < argc){
+
+        char *out = urlencode(argv[1]);
+
+        if (null != out){
+            fprintf(stdout,"%s\n",out);
+
+            return 0;
+        }
+        else {
+            fprintf(stderr,"%s error encoding input '%s'.\n",argv[0],argv[1]);
+            return 1;
+        }
+    }
+    else {
+        fprintf(stderr,"usage: %s <url>\n",argv[0]);
+        return 1;
+    }
+}

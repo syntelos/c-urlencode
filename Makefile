@@ -29,7 +29,7 @@ HEADERS := inc/*.h
 SOURCES := src/*.c
 
 
-urlencode: $(HEADERS) $(SOURCES) main/catalog.c
+urlencode: $(HEADERS) $(SOURCES) main/urlencode.c
 	$(CC) $(CCFLAGS) -o $@ $(SOURCES) main/urlencode.c $(LDFLAGS)
 
 clean:
